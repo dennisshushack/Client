@@ -88,7 +88,8 @@ class Login extends React.Component {
     try {
       const requestBody = JSON.stringify({
         username: this.state.username,
-        name: this.state.name
+        name: this.state.name,
+        password: this.state.password
       });
       const response = await api.post('/users', requestBody);
 
@@ -132,7 +133,7 @@ class Login extends React.Component {
           <Form>
             <Label>Username</Label>
             <InputField
-              placeholder="Enter here..."
+              placeholder="Pleasse enter your username here..."
               onChange={e => {
                 this.handleInputChange('username', e.target.value);
               }}
@@ -144,6 +145,14 @@ class Login extends React.Component {
                 this.handleInputChange('name', e.target.value);
               }}
             />
+            <Label>Password</Label>
+            <InputField type="password"
+              placeholder="Please enter the password here"
+              onChange={e => {
+                this.handleInputChange('password', e.target.value);
+              }}
+            />
+
             <ButtonContainer>
               <Button
                 disabled={!this.state.username || !this.state.name}
