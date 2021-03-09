@@ -76,7 +76,7 @@ class Login extends React.Component {
     super();
     this.state = {
       name: null,
-      username: null
+      username: null,
     };
   }
   /**
@@ -95,7 +95,7 @@ class Login extends React.Component {
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
-      // Store the token into the local storage.
+      // Store the token, the username and id into the local storage.
       localStorage.setItem('token', user.token);
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
@@ -132,6 +132,7 @@ class Login extends React.Component {
       <BaseContainer>
         <FormContainer>
           <Form>
+          <p className="center">Login</p>
             <Label>Username</Label>
             <InputField
               placeholder="Pleasse enter your username here..."
@@ -146,13 +147,12 @@ class Login extends React.Component {
                 this.handleInputChange('password', e.target.value);
               }}
             />
-
             <ButtonContainer>
               <Button
-                disabled={!this.state.username || !this.state.name || !this.state.password}
+                disabled={!this.state.username || !this.state.password}
                 width="50%"
                 onClick={() => {
-                  this.register();
+                  this.login();
                 }}
               >
                 Login 
