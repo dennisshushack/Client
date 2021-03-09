@@ -65,7 +65,7 @@ const ButtonContainer = styled.div`
  * https://reactjs.org/docs/react-component.html
  * @Class
  */
-class Login extends React.Component {
+class Register extends React.Component {
   /**
    * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
    * The constructor for a React component is called before it is mounted (rendered).
@@ -76,7 +76,9 @@ class Login extends React.Component {
     super();
     this.state = {
       name: null,
-      username: null
+      username: null,
+      password: null,
+      birthday: null
     };
   }
   /**
@@ -84,26 +86,26 @@ class Login extends React.Component {
    * If the request is successful, a new user is returned to the front-end
    * and its token is stored in the localStorage.
    */
-  async login() {
+  async register() {
     try {
       const requestBody = JSON.stringify({
         username: this.state.username,
-        password: this.state.password
+        name: this.state.name,
+        password: this.state.password,
+        birthday: this.state.birthday
       });
-      const response = await api.post('/login', requestBody);
+      const response = await api.post('/users', requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
       // Store the token into the local storage.
       localStorage.setItem('token', user.token);
-      localStorage.setItem('id',user.id);
-      localStorage.setItem('username',user.username);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       this.props.history.push(`/game`);
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+      alert(`Something went wrong during the registration: \n${handleError(error)}`);
     }
   }
 
@@ -139,6 +141,13 @@ class Login extends React.Component {
                 this.handleInputChange('username', e.target.value);
               }}
             />
+            <Label>Name</Label>
+            <InputField
+              placeholder="Please enter here"
+              onChange={e => {
+                this.handleInputChange('name', e.target.value);
+              }}
+            />
             <Label>Password</Label>
             <InputField type="password"
               placeholder="Please enter the password here"
@@ -155,7 +164,7 @@ class Login extends React.Component {
                   this.register();
                 }}
               >
-                Login 
+                Create Account 
               </Button>
             </ButtonContainer>
           </Form>
@@ -169,4 +178,4 @@ class Login extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default withRouter(Login);
+export default withRouter(Register);
