@@ -19,14 +19,6 @@ class ProfileRouter extends React.Component {
         <Route
           exact
           path={`${this.props.base}/:id`} component={Profilepage}     />
-         {/*render={() => <Profilepage />} 
-   
-        <Route
-          exact
-          path={`${this.props.base}`}
-          render={() => <Redirect to={`${this.props.base}/id`} />}
-    /> */}
-    
       </Container>
     );
   }

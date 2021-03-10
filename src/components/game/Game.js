@@ -24,6 +24,11 @@ const PlayerContainer = styled.li`
   align-items: center;
   justify-content: center;
 `;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+`;
 
 class Game extends React.Component {
   constructor() {
@@ -97,7 +102,7 @@ class Game extends React.Component {
             <Users>
               {this.state.users.map(user => {
                 return (
-                  <button
+                  <ButtonContainer
                       onClick = {() => {
                         this.props.history.push(`/profilepage/${user.id}`)
                       }}
@@ -105,7 +110,7 @@ class Game extends React.Component {
                   <PlayerContainer key={user.id}>
                     <Player user={user} />
                   </PlayerContainer>
-                </button>
+                </ButtonContainer>
                 );
               })}
             </Users>
