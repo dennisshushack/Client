@@ -5,6 +5,7 @@ import React, { useState } from "react";
 
 /**
  * This is a navigation bar, that appears on all sites
+ * Added
  */
 
 class Navigation extends React.Component {
