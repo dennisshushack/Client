@@ -28,12 +28,26 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      users: null
+      users: null,
     };
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  async logout() {
+    // Getting the userId, needed for the backend
+    const id = localStorage.getItem('id');
+    console.log(id);
+    // This clears the local storage
+    localStorage.clear();
+    // Declare, what we want to have sent
+    const requestBody = JSON.stringify({
+      username: null,
+      password: null,
+      id: id
+    });
+    // We are going to wait for the put to the backend
+    await api.put("/logout",requestBody);
+
+    // We send the user to the login screen -> loged out
     this.props.history.push('/login');
   }
 
@@ -65,7 +79,7 @@ class Game extends React.Component {
   render() {
     return (
       <Container>
-        <h2>Overview of all users </h2>
+        <h2>Welcome {localStorage.getItem('username')} </h2>
         <p>Get all users from secure end point:</p>
         {!this.state.users ? (
           <Spinner />
