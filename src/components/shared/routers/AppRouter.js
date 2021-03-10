@@ -7,7 +7,7 @@ import {LoginGuard} from "../routeProtectors/LoginGuard";
 
 
 import Register from "../../Registration/Register";
-import Login from "../../Login/Login";
+import Login from "./Components/Login/Login";
 import Navigation from "../../Navigation/Navigation";
 
 
