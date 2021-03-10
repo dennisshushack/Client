@@ -6,6 +6,7 @@ import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
 import { withRouter } from 'react-router-dom';
+import Profilepage from '../profilepage/Profilepage';
 
 const Container = styled(BaseContainer)`
   color: white;
@@ -31,6 +32,10 @@ class Game extends React.Component {
       users: null,
     };
   }
+
+  /*
+  * This function does the logic, when login out 
+  */
 
   async logout() {
     // Getting the userId, needed for the backend
@@ -75,11 +80,15 @@ class Game extends React.Component {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
   }
+  routeChange() {
+    let path = `/profilepage/1`;
+    this.props.history.push(path);
+    }
 
   render() {
     return (
       <Container>
-        <h2>Welcome {localStorage.getItem('username')} </h2>
+        <h2>Hello {localStorage.getItem('username')} </h2>
         <p>Get all users from secure end point:</p>
         {!this.state.users ? (
           <Spinner />
@@ -88,9 +97,15 @@ class Game extends React.Component {
             <Users>
               {this.state.users.map(user => {
                 return (
+                  <button
+                      onClick = {() => {
+                        this.props.history.push(`/profilepage/${user.id}`)
+                      }}
+                    >
                   <PlayerContainer key={user.id}>
                     <Player user={user} />
                   </PlayerContainer>
+                </button>
                 );
               })}
             </Users>
