@@ -19,7 +19,7 @@ import Navigation from "../../Navigation/Navigation";
  * The main difference between these two routes is the following:
  * /login renders another component without any sub-route
  * /game renders a Router that contains other sub-routes that render in turn other react components
- * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start a
+ * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start chang
  */
 class AppRouter extends React.Component {
   render() {
