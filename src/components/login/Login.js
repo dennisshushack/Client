@@ -107,6 +107,8 @@ class Login extends React.Component {
       this.props.history.push(`/game`);
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
+      // To reload, when the user login goes wrong
+      window.location.reload(true);
     }
   }
 
@@ -138,7 +140,7 @@ class Login extends React.Component {
           <Form>
             <Label>Username</Label>
             <InputField
-              placeholder="Pleasse enter your username here..."
+              placeholder="Please enter your username here..."
               onChange={e => {
                 this.handleInputChange('username', e.target.value);
               }}

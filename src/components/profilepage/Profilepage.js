@@ -71,6 +71,8 @@ async updateUser(){
     const response = await api.put('/users/'+ this.id, requestBody);
     if(response.status == 204){
       this.setState({ users: response.data });
+      // To reload, when the user registration goes wrong
+      window.location.reload(true);
     }
 
   

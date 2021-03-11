@@ -111,8 +111,12 @@ class Register extends React.Component {
     } catch (error) {
       this.props.history.push("/registration")
       alert(`Something went wrong during the registration: \n${handleError(error)}`);
+      // To reload, when the user registration goes wrong
+      window.location.reload(true);
+
     }
   }
+
 
   /**
    *  Every time the user enters something in the input field, the state gets updated.
