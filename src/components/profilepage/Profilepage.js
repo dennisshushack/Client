@@ -64,16 +64,15 @@ constructor(props) {
 
 async updateUser(){
   try {
-   // e.preventDefault();
     const requestBody = JSON.stringify({
-      username: this.state.users.username,
+      username: this.state.users.username.toLowerCase(),
       birthday: this.state.users.birthday
     });
     const response = await api.put('/users/'+ this.id, requestBody);
-    console.log(response);
-    if(response.status == 200){
+    if(response.status == 204){
       this.setState({ users: response.data });
     }
+
   
 } catch (error) {
   alert(`Something went wrong during the registration: \n${handleError(error)}`);
@@ -91,7 +90,6 @@ async getUserProfile() {
     try {
         // Get userID by URL in parent 
         this.id = this.props.match.params.id;
-        console.log(this.id);
         //Get mapping to backend
         const response = await api.get("/users/" + this.id)
 

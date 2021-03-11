@@ -86,15 +86,12 @@ class Game extends React.Component {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
   }
-  routeChange() {
-    let path = `/profilepage/1`;
-    this.props.history.push(path);
-    }
+
 
   render() {
     return (
       <Container>
-        <h2>Hello {localStorage.getItem('username')} </h2>
+        <h2>Hello {localStorage.getItem("name")}</h2>
         <p>Get all users from secure end point:</p>
         {!this.state.users ? (
           <Spinner />

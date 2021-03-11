@@ -107,7 +107,9 @@ class Register extends React.Component {
       // Login successfully worked --> navigate to the route /game in the GameRouter
       this.props.callParent();
       this.props.history.push(`/game`);
+      localStorage.setItem('name',user.name);
     } catch (error) {
+      this.props.history.push("/registration")
       alert(`Something went wrong during the registration: \n${handleError(error)}`);
     }
   }
