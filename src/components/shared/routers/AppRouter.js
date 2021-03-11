@@ -63,7 +63,7 @@ changeNavState = () => {
               exact
               render={() => (
                 <RegistrationGuard>
-                  <Register />
+                  <Register callParent={this.changeNavState}/>
                 </RegistrationGuard>
               )}
             />

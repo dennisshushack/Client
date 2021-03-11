@@ -6,18 +6,8 @@ import {NavLink} from "react-router-dom";
  */
 
 const SignedInLinks = (props) => {
-        // Function needed, when the User clicks on the Log-Out Button
-        const logout = () => {
-            localStorage.removeItem('token');
-            props.changeState()
-          }
-
     return ( 
         <ul className="right">
-           {/*These are the links for the loged in User*/}
-           <li><NavLink to="/login" onClick={()=>{
-               logout()
-           }}>Log Out</NavLink></li>
             {/*A Little Avatar*/}
             <li><NavLink to="/"className="btn btn-floating pink lighthen-1">{localStorage.getItem("username").slice(0,2)}</NavLink></li>
         </ul>
