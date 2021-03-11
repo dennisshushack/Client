@@ -29,6 +29,7 @@ class AppRouter extends React.Component {
     this.childTwo = React.createRef();
     }
 
+// Calls the change State in the navigation bar
 changeNavState = () => {
     this.childTwo.current.changeState();
     }
@@ -36,6 +37,7 @@ changeNavState = () => {
   render() {
     return (
       <BrowserRouter>
+      {/* Gives the reference of the navigarion*/}
         <Navigation ref={this.childTwo}/>
         <Switch>
           <div>
