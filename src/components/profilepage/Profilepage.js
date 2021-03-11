@@ -48,9 +48,8 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-// Edit Profile 
-let editProfile = false;
 
+let id = 0;
 
 class Profilepage extends React.Component{
 // Creating a constructor
@@ -63,14 +62,38 @@ constructor(props) {
   }
 }
 
+async updateUser(){
+  try {
+   // e.preventDefault();
+    const requestBody = JSON.stringify({
+      username: this.state.users.username,
+      birthday: this.state.users.birthday
+    });
+    const response = await api.put('/users/'+ this.id, requestBody);
+    console.log(response);
+    if(response.status == 200){
+      this.setState({ users: response.data });
+    }
+  
+} catch (error) {
+  alert(`Something went wrong during the registration: \n${handleError(error)}`);
+}
+}
+
+
+// handleSaveClick
+handleSaveClick = (e)=>{
+  e.preventDefault();
+  this.updateUser();
+}
 
 async getUserProfile() {
     try {
         // Get userID by URL in parent 
-        let id = this.props.match.params.id;
-        console.log(id);
+        this.id = this.props.match.params.id;
+        console.log(this.id);
         //Get mapping to backend
-        const response = await api.get("/users/" + id)
+        const response = await api.get("/users/" + this.id)
 
         await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -83,13 +106,32 @@ async getUserProfile() {
     }
 }
 // HandleClick
-handleClick = () => {
-  debugger
-  this.editProfile = true;
-// this.setState({
-// ownProf: true
-// })
+handleClick = (e) => {
+  e.preventDefault();
+  this.setState({
+    ownProf: true
+  })
  };
+
+ // Handel Cancel Click
+ handleCancelClick = (e) => {
+  e.preventDefault();
+  this.setState({
+  ownProf: false
+  })
+  }
+
+  // Function for changing input
+  handleInputChange(key, value) {
+    // Example: if the key is username, this statement is the equivalent to the following one:
+    // Copy previous state copy and update it.
+    this.setState(prevState => ({
+      users: {
+      ...prevState.users,
+      [key]: value
+      }
+      }))
+  }
 
 
 
@@ -97,7 +139,6 @@ render(){
   // We need the id of the current user and the one of the Userprofile -> Needed for Edit Button
   const id = this.props.match.params.id;
   const idUser = localStorage.getItem("id");
-  let edit = this.editProfile;
     return ( 
         <Container>
             <h2>Profile</h2> 
@@ -113,39 +154,31 @@ render(){
                         <span className="card-title blue-text">Userprofile</span>
                         <section className="section container">
                             <form action="">
-                               <Label> <label htmlFor="1">Your UserID</label>
-                               </Label>
-                                <br/>
-                                <span className="blue-text" id="1">{this.state.users.id}</span>
-                                <br/>
                                 <Label> <label htmlFor="2">Your Username</label>
-                                </Label>
                                 <br/>
-                                <span className="blue-text" id="1">{this.state.users.username}</span>
-                               <br/>
-                                <Label> <label htmlFor="2">Your Name</label>
+                                {!this.state.ownProf ? (<span className="blue-text" id="1">{this.state.users.username}</span>): (<input type="text" onChange={e => {
+                this.handleInputChange('username', e.target.value);
+              }}/>)} 
                                 </Label>
-                                <br/>
-                                <span className="blue-text" id="1">{this.state.users.name}</span>
-                               <br/>
-                                <Label> <label htmlFor="2">Creationdate</label>
-                                </Label>
-                                <br/>
-                                <span className="blue-text" id="1">{this.state.users.creationdate.slice(0,10)}</span>
-                               <br/>
-                                <Label> <label htmlFor="2">Birthday</label>
-                                </Label>
-                                <br/>
-                                {console.log(this.state.ownProf)}
-                                {!edit ? (<span className="blue-text" id="1">Nan</span>): (<input type="text"/>)} 
                                <br/>
                                <Label> <label htmlFor="2">Status</label>
-                               </Label>
                                 <br/>
                                 <span className="blue-text" id="1">{this.state.users.status}</span>
+                                </Label>
                                <br/>
+                                <Label> <label htmlFor="2">Creationdate</label>
+                                <br/>
+                                <span className="blue-text" id="1">{this.state.users.creationdate.slice(0,10)}</span>
+                                </Label>
                                <br/>
-                               {id==idUser ? ( <button className="btn pink" onClick={this.handleClick}>Edit</button>) : null}
+                                <Label> <label htmlFor="2">Birthday</label>
+                                <br/>
+                                {!this.state.ownProf ? (<span className="blue-text" id="1">Nan</span>): (<input type="text" />)} 
+                                </Label>
+                               <br/>
+                               <br/>  
+                               {id == idUser ? !this.state.ownProf ? (<button className="btn pink" onClick={this.handleClick}>Edit</button>) : (<button className="btn pink" onClick={this.handleSaveClick}>Save</button>) : null}
+                              {this.state.ownProf ? (<button className="btn pink" onClick={this.handleCancelClick}>Cancel</button>) : null}
                             </form>
                         </section>
                     </div>

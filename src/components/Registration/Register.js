@@ -89,7 +89,7 @@ class Register extends React.Component {
   async register() {
     try {
       const requestBody = JSON.stringify({
-        username: this.state.username,
+        username: this.state.username.toLowerCase(),
         name: this.state.name,
         password: this.state.password,
         birthday: this.state.birthday
@@ -162,7 +162,7 @@ class Register extends React.Component {
 
             <ButtonContainer>
               <Button
-                disabled={!this.state.username || !this.state.name || !this.state.password}
+                disabled={!this.state.username || !this.state.name || !this.state.password || this.state.password.length<5}
                 width="50%"
                 onClick={() => {
                   this.register();

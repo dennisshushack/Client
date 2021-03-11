@@ -8,6 +8,7 @@ import {NavLink} from "react-router-dom";
 const SignedInLinks = (props) => {
     return ( 
         <ul className="right">
+            <li><NavLink to="/" className="btn">Overview</NavLink></li>
             {/*A Little Avatar*/}
             <li><NavLink to="/"className="btn btn-floating pink lighthen-1">{localStorage.getItem("username").slice(0,2)}</NavLink></li>
         </ul>
