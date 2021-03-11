@@ -72,8 +72,8 @@ class Login extends React.Component {
    * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
    * These fields are then handled in the onChange() methods in the resp. InputFields
    */
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: null,
       username: null,
@@ -102,6 +102,7 @@ class Login extends React.Component {
       
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
+      this.props.callParent();
       this.props.history.push(`/game`);
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
@@ -131,9 +132,9 @@ class Login extends React.Component {
   render() {
     return (
       <BaseContainer>
+      <h3 className="center white-text">Login</h3>
         <FormContainer>
           <Form>
-          <p className="center">Login</p>
             <Label>Username</Label>
             <InputField
               placeholder="Pleasse enter your username here..."

@@ -19,7 +19,7 @@ const SignedInLinks = (props) => {
                logout()
            }}>Log Out</NavLink></li>
             {/*A Little Avatar*/}
-            <li><NavLink to="/"className="btn btn-floating pink lighthen-1">DS</NavLink></li>
+            <li><NavLink to="/"className="btn btn-floating pink lighthen-1">{localStorage.getItem("username").slice(0,2)}</NavLink></li>
         </ul>
     )}
  

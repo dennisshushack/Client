@@ -24,17 +24,26 @@ import Navigation from "../../Navigation/Navigation";
  * 
  */
 class AppRouter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.childTwo = React.createRef();
+    }
+
+changeNavState = () => {
+    this.childTwo.current.changeState();
+    }
+
   render() {
     return (
       <BrowserRouter>
-        <Navigation />
+        <Navigation ref={this.childTwo}/>
         <Switch>
           <div>
             <Route
               path="/game"
               render={() => (
                 <GameGuard>
-                  <GameRouter base={"/game"} />
+                  <GameRouter callGameParent={this.changeNavState} base={"/game"} />
                 </GameGuard>
               )}
             />
@@ -43,7 +52,7 @@ class AppRouter extends React.Component {
             exact
             render={() => (
               <LoginGuard>
-                <Login />
+                <Login callParent={this.changeNavState}/>
               </LoginGuard>
             )}
           />

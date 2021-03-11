@@ -48,13 +48,15 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-  
+// Edit Profile 
+let editProfile = false;
 
 
 class Profilepage extends React.Component{
 // Creating a constructor
-constructor() {
-  super();
+constructor(props) {
+  super(props);
+  this.getUserProfile();
   this.state = {
     users: null,
     ownProf: false
@@ -62,7 +64,7 @@ constructor() {
 }
 
 
-async componentDidMount() {
+async getUserProfile() {
     try {
         // Get userID by URL in parent 
         let id = this.props.match.params.id;
@@ -80,14 +82,14 @@ async componentDidMount() {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
 }
-
 // HandleClick
 handleClick = () => {
-  this.setState({
-   ownProf: true
-  })
+  debugger
+  this.editProfile = true;
+// this.setState({
+// ownProf: true
+// })
  };
-
 
 
 
@@ -95,7 +97,7 @@ render(){
   // We need the id of the current user and the one of the Userprofile -> Needed for Edit Button
   const id = this.props.match.params.id;
   const idUser = localStorage.getItem("id");
-
+  let edit = this.editProfile;
     return ( 
         <Container>
             <h2>Profile</h2> 
@@ -135,7 +137,7 @@ render(){
                                 </Label>
                                 <br/>
                                 {console.log(this.state.ownProf)}
-                                {!this.state.ownProf ? (<span className="blue-text" id="1">Nan</span>): (<span className="blue-text" id="1">Welcome</span>)}
+                                {!edit ? (<span className="blue-text" id="1">Nan</span>): (<input type="text"/>)} 
                                <br/>
                                <Label> <label htmlFor="2">Status</label>
                                </Label>
@@ -143,7 +145,7 @@ render(){
                                 <span className="blue-text" id="1">{this.state.users.status}</span>
                                <br/>
                                <br/>
-                               {id==idUser ? ( <button className="btn pink" onClick={()=> {this.handleClick()}}>Edit</button>) : null}
+                               {id==idUser ? ( <button className="btn pink" onClick={this.handleClick}>Edit</button>) : null}
                             </form>
                         </section>
                     </div>

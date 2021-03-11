@@ -9,20 +9,25 @@ import React, { useState } from "react";
  */
 
 class Navigation extends React.Component {
-    // We are going to define the state:
-    state = {
-      token: localStorage.getItem('token')
+  constructor() {
+    super();
+    this.state = {
+    token: localStorage.getItem('token')
+      }
     }
+    
+    
+    
 
     // Set state 
-    changeState = () => {
+changeState = () => {
         this.setState({
-            token: null
+            token: localStorage.getItem("token")
         })
     }
    
   
-    shouldComponentUpdate(prevProps,prevState) {}
+  //  shouldComponentUpdate(prevProps,prevState) {}
   
     render(){
       return(
@@ -30,7 +35,7 @@ class Navigation extends React.Component {
             <nav className="nav-wrapper blue darken-3">
             <div className="container">
                 <Link to="/" className="brand-logo">Dennis Project</Link>
-                {this.state.token ? <SignedInLinks changeState={this.changeState}/> : <SignedOutLinks />}
+                {this.state.token == null ? <SignedOutLinks /> : <SignedInLinks changeState={this.changeState} />}
             </div>
         </nav>
 

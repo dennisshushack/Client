@@ -134,6 +134,7 @@ class Register extends React.Component {
   render() {
     return (
       <BaseContainer>
+        <h3 className="center white-text">Register</h3>
         <FormContainer>
           <Form>
             <Label>Username</Label>

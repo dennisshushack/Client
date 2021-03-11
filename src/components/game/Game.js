@@ -58,6 +58,7 @@ class Game extends React.Component {
     await api.put("/logout",requestBody);
 
     // We send the user to the login screen -> loged out
+    this.props.callParent();
     this.props.history.push('/login');
   }
 
