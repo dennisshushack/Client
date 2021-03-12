@@ -154,14 +154,14 @@ class Register extends React.Component {
             />
             <Label>Name</Label>
             <InputField
-              placeholder="Please enter here"
+              placeholder="Please enter the name here..."
               onChange={e => {
                 this.handleInputChange('name', e.target.value);
               }}
             />
             <Label>Password</Label>
             <InputField type="password"
-              placeholder="Please enter the password here"
+              placeholder="Please enter the password here..."
               onChange={e => {
                 this.handleInputChange('password', e.target.value);
               }}

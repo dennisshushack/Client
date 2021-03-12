@@ -44,8 +44,9 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-
+// Global variables
 let id = 0;
+let userdata = null;
 
 class Profilepage extends React.Component{
 // Creating a constructor
@@ -67,10 +68,18 @@ async updateUser(){
       id: this.state.users.id
     });
     const response = await api.put('/users/'+ this.id, requestBody);
+    debugger
     if(response.status == 204){
-      this.setState({ users: response.data });
-      // To reload, when the user registration goes wrong
-      window.location.reload(true);
+     this.setState(prevState => ({
+       users: {
+          // Save the changes done in the previous state
+     ...prevState.users
+      }
+      }))
+      this.setState({
+          ownProf: false
+          }) 
+     // window.location.reload(true);
     }
 
   
@@ -94,7 +103,7 @@ async getUserProfile() {
         const response = await api.get("/users/" + this.id)
 
         await new Promise(resolve => setTimeout(resolve, 1000));
-
+        this.userdata = response.data;
         this.setState({ users: response.data });
        
 
@@ -111,22 +120,28 @@ handleClick = (e) => {
   })
  };
 
- // Handel Cancel Click
+ // Handel Cancel Click. This handels what happens, when we click on Cancel
  handleCancelClick = (e) => {
   e.preventDefault();
   this.setState({
   ownProf: false
   })
+  this.setState(prevState => ({
+    users: {
+    ...prevState.users,
+    username: this.userdata.username,
+    birthday: this.userdata.birthday
+    }
+    }))
   }
 
-  // Handel Back Click
+  // Handel Back Click (Is in charge, when clicking the back Button appearing on all Users)
   handleBack = () =>{
     this.props.history.push("/game");
   }
 
   // Function for changing input
   handleInputChange(key, value) {
-    // Example: if the key is username, this statement is the equivalent to the following one:
     // Copy previous state copy and update it.
     this.setState(prevState => ({
       users: {
@@ -176,7 +191,7 @@ render(){
                                <br/>
                                 <Label> <label htmlFor="2">Birthday</label>
                                 <br/>
-                                {!this.state.ownProf ? (<span className="blue-text" id="1">{this.state.users.birthday}</span>): (<input type="text" onChange={e => {
+                                {!this.state.ownProf ? (<span className="blue-text" id="1">{this.state.users.birthday}</span>): (<input type="text" placeholder={this.state.users.birthday} onChange={e => {
                 this.handleInputChange('birthday', e.target.value);
               }} />)} 
                                 </Label>
