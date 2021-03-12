@@ -103,11 +103,12 @@ class Register extends React.Component {
       localStorage.setItem('token', user.token);
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
+      localStorage.setItem('name',user.name);
+
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       this.props.callParent();
       this.props.history.push(`/game`);
-      localStorage.setItem('name',user.name);
     } catch (error) {
       this.props.history.push("/registration")
       alert(`Something went wrong during the registration: \n${handleError(error)}`);

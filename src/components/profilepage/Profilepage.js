@@ -121,6 +121,11 @@ handleClick = (e) => {
   })
   }
 
+  // Handel Back Click
+  handleBack = () =>{
+    this.props.history.push("/game");
+  }
+
   // Function for changing input
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
@@ -156,7 +161,7 @@ render(){
                             <form action="">
                                 <Label> <label htmlFor="2">Your Username</label>
                                 <br/>
-                                {!this.state.ownProf ? (<span className="blue-text" id="1">{this.state.users.username}</span>): (<input type="text" onChange={e => {
+                                {!this.state.ownProf ? (<span className="blue-text" id="1">{this.state.users.username}</span>): (<input type="text" placeholder={this.state.users.username} onChange={e => {
                 this.handleInputChange('username', e.target.value);
               }}/>)} 
                                 </Label>
@@ -173,7 +178,9 @@ render(){
                                <br/>
                                 <Label> <label htmlFor="2">Birthday</label>
                                 <br/>
-                                {!this.state.ownProf ? (<span className="blue-text" id="1">Nan</span>): (<input type="text" />)} 
+                                {!this.state.ownProf ? (<span className="blue-text" id="1">{this.state.users.birthday}</span>): (<input type="text" onChange={e => {
+                this.handleInputChange('birthday', e.target.value);
+              }} />)} 
                                 </Label>
                                <br/>
                                <br/>  
@@ -181,12 +188,14 @@ render(){
                               {this.state.ownProf ? (<button className="btn pink" onClick={this.handleCancelClick}>Cancel</button>) : null}
                             </form>
                         </section>
+                        <button className="btn pink" onClick={this.handleBack}>Back to Overview</button>
                     </div>
                 </div>
               </div>
               )}
         </Container>
      );
+     
 }
 }
  

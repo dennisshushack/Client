@@ -10,6 +10,7 @@ import {LoginGuard} from "../routeProtectors/LoginGuard";
 import Register from "../../Registration/Register";
 import Login from "../../login/Login";
 import Navigation from "../../Navigation/Navigation";
+import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 
 
 
@@ -70,9 +71,9 @@ changeNavState = () => {
              <Route
               path="/profilepage"
               render={() => (
-                <GameGuard>
+                <ProfileGuard>
                   <ProfileRouter base={"/profilepage"} />
-                </GameGuard>
+                </ProfileGuard>
               )}
             />
             <Route path="/" exact render={() => <Redirect to={"/game"} />} />
