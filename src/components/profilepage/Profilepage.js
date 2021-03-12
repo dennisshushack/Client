@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { BaseContainer } from '../../helpers/layout';
-import { Button } from '../../views/design/Button';
 import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
-import { withRouter } from 'react-router-dom';
-import queryString from 'query-string';
 import { Spinner } from '../../views/design/Spinner';
 
  
@@ -58,7 +54,8 @@ constructor(props) {
   this.getUserProfile();
   this.state = {
     users: null,
-    ownProf: false
+    ownProf: false,
+    id: localStorage.getItem("id")
   }
 }
 
@@ -66,7 +63,8 @@ async updateUser(){
   try {
     const requestBody = JSON.stringify({
       username: this.state.users.username.toLowerCase(),
-      birthday: this.state.users.birthday
+      birthday: this.state.users.birthday,
+      id: this.state.users.id
     });
     const response = await api.put('/users/'+ this.id, requestBody);
     if(response.status == 204){
@@ -85,7 +83,7 @@ async updateUser(){
 // handleSaveClick
 handleSaveClick = (e)=>{
   e.preventDefault();
-  this.updateUser();
+  this.updateUser();  
 }
 
 async getUserProfile() {

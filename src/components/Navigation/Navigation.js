@@ -34,7 +34,7 @@ changeState = () => {
           <div>
             <nav className="nav-wrapper blue darken-3">
             <div className="container">
-                <Link to="/" className="brand-logo">Dennis Project</Link>
+                <Link to="/" className="brand-logo"><i class="large material-icons">code</i>Dennis Project</Link>
                 {this.state.token == null ? <SignedOutLinks /> : <SignedInLinks changeState={this.changeState} />}
             </div>
         </nav>
