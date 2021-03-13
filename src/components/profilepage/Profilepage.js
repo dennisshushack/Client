@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
+import { withRouter } from 'react-router-dom';
 import { Spinner } from '../../views/design/Spinner';
 
  
@@ -72,27 +73,35 @@ async updateUser(){
     if(response.status == 204){
      this.setState(prevState => ({
        users: {
-          // Save the changes done in the previous state
+          // As we have no Response from the Server (with data), we set the state again & Set the ownProf = false
+          // That we get back to the Non-Edit mode
      ...prevState.users
       }
       }))
       this.setState({
           ownProf: false
           }) 
-     // window.location.reload(true);
     }
-
-  
 } catch (error) {
   alert(`Something went wrong during the registration: \n${handleError(error)}`);
 }
 }
+// For Navbar
+componentDidUpdate(prevProps) {
+  if (this.props.location.pathname !== prevProps.location.pathname) {
+  this.getUserProfile();
+  }
+  }
 
 
 // handleSaveClick
 handleSaveClick = (e)=>{
   e.preventDefault();
-  this.updateUser();  
+  if(this.state.users.username.trim()== ""){
+    alert("You cannot have an empty username!")
+  }else{
+    this.updateUser();
+  }
 }
 
 async getUserProfile() {
@@ -212,4 +221,4 @@ render(){
 }
 }
  
-export default Profilepage;
+export default withRouter(Profilepage);
