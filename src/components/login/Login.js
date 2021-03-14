@@ -56,65 +56,58 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-/**
- * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
- * You should have a class (instead of a functional component) when:
- * - You need an internal state that cannot be achieved via props from other parent components
- * - You fetch data from the server (e.g., in componentDidMount())
- * - You want to access the DOM via Refs
- * https://reactjs.org/docs/react-component.html
- * @Class
- */
+
 class Login extends React.Component {
   /**
-   * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
    * The constructor for a React component is called before it is mounted (rendered).
-   * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
-   * These fields are then handled in the onChange() methods in the resp. InputFields
+   * In this case the initial state is defined in the constructor given by username & name
    */
   constructor(props) {
     super(props);
+    // Initial state is given
     this.state = {
       name: null,
       username: null,
     };
   }
   /**
-   * HTTP POST request is sent to the backend.
-   * If the request is successful, a new user is returned to the front-end
-   * and its token is stored in the localStorage.
+   * After the user field out both username & password field and clicks on the login button -> login() is invoked
+   * HTTP PUT request is sent to the backend.
+   * If the request is successful, a new user is returned to the front-end form of (UserGetDTO)
+   * It's token, id, username & name is stored in the local storage
    */
   async login() {
     try {
+      // What we send back to the backend
       const requestBody = JSON.stringify({
         username: this.state.username,
         password: this.state.password
       });
+      // We create a Put Request to the backend to /login
       const response = await api.put('/login', requestBody);
 
-      // Get the returned user and update a new object.
+      // Get the returned user and update a new object (UserGetDTO)
       const user = new User(response.data);
 
-      // Store the token, the username and id into the local storage.
+      // Store the token, the username,id, token and name into the local storage.
       localStorage.setItem('token', user.token);
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
       localStorage.setItem('name',user.name);
       
+      // This part is for the navigationbar-> Calls the changeNavState in the Parent -> AppRouter
+      this.props.callParent(this.props.changeNavState);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
-      this.props.callParent();
+      // Otherwise an error is displayed
       this.props.history.push(`/game`);
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
-      // To reload, when the user login goes wrong
     }
   }
 
   /**
    *  Every time the user enters something in the input field, the state gets updated.
-   * @param key (the key of the state for identifying the field that needs to be updated)
-   * @param value (the value that gets assigned to the identified state key)
    */
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
@@ -124,10 +117,6 @@ class Login extends React.Component {
 
   /**
    * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
-   * Initialization that requires DOM nodes should go here.
-   * If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-   * You may call setState() immediately in componentDidMount().
-   * It will trigger an extra rendering, but it will happen before the browser updates the screen.
    */
   componentDidMount() {}
 
@@ -138,6 +127,7 @@ class Login extends React.Component {
         <FormContainer>
           <Form>
             <Label>Username</Label>
+            {/* This is the first inputField, that will invoke handleInputChange(), whenever something is written inside it */}
             <InputField
               placeholder="Please enter your username here..."
               onChange={e => {
@@ -145,6 +135,7 @@ class Login extends React.Component {
               }}
             />
             <Label>Password</Label>
+            {/* This is the second inputField, that will invoke handleInputChange(), whenever something is written inside it */}
             <InputField type="password"
               placeholder="Please enter the password here"
               onChange={e => {
@@ -152,6 +143,7 @@ class Login extends React.Component {
               }}
             />
             <ButtonContainer>
+              {/* A check is first done, before the user can submit the login and login() is invoked -> username&password fields cannot be empty */}
               <Button
                 disabled={!this.state.username || !this.state.password}
                 width="50%"

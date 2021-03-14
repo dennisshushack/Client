@@ -6,7 +6,8 @@ import {Link, NavLink} from "react-router-dom";
  */
 
 const SignedInLinks = (props) => {
-    const id = localStorage.getItem("id");
+    // Is needed for the AVATAR ICON to click on and get redirected to the own profile page
+    let id = localStorage.getItem("id");
     return ( 
         <ul className="right">
             <li><NavLink to="/" className="btn">Overview</NavLink></li>

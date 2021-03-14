@@ -27,10 +27,12 @@ import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
+    // This here creates a Reference to the Navigation bar -> ref={this.childTwo}
     this.childTwo = React.createRef();
     }
 
-// Calls the change State in the navigation bar
+// As we now have a reference to the Navigation bar, we can call the changeState() method inside it.
+// We mainly use this spesific method to refresh our Navigation bar.
 changeNavState = () => {
     this.childTwo.current.changeState();
     }

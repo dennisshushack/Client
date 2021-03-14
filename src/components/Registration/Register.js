@@ -56,24 +56,14 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-/**
- * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
- * You should have a class (instead of a functional component) when:
- * - You need an internal state that cannot be achieved via props from other parent components
- * - You fetch data from the server (e.g., in componentDidMount())
- * - You want to access the DOM via Refs
- * https://reactjs.org/docs/react-component.html
- * @Class
- */
+
 class Register extends React.Component {
   /**
-   * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
    * The constructor for a React component is called before it is mounted (rendered).
-   * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
-   * These fields are then handled in the onChange() methods in the resp. InputFields
    */
   constructor() {
     super();
+    // Here the state get's defined 
     this.state = {
       name: null,
       username: null,
@@ -82,32 +72,38 @@ class Register extends React.Component {
     };
   }
   /**
+   * After all fields have been filled out and the user clicks on register, the function register() gets invoked
    * HTTP POST request is sent to the backend.
-   * If the request is successful, a new user is returned to the front-end
-   * and its token is stored in the localStorage.
+   * If the request is successful, a new user is returned to the front-end in a UserGetDTO maner
+   * and its token,id,username and name is stored in the localStorage.
    */
   async register() {
     try {
+      // What we want to send back to the backend
       const requestBody = JSON.stringify({
         username: this.state.username.toLowerCase(),
         name: this.state.name,
         password: this.state.password,
         birthday: this.state.birthday
       });
+      // Post request to the backend with given data
       const response = await api.post('/users', requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
-      // Store the token into the local storage.
+      // Store the token, id, username & name into the local storage.
       localStorage.setItem('token', user.token);
       localStorage.setItem('id',user.id);
       localStorage.setItem('username',user.username);
       localStorage.setItem('name',user.name);
+    
+      // This is for the navigation bar -> Calls changeNavState in the parent
+      this.props.callParent(this.props.changeNavState);
 
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      this.props.callParent();
+      // Login successfully worked --> navigate to the route /game in the GameRouter,
+      // If something went wrong send the user back to the registration
       this.props.history.push(`/game`);
     } catch (error) {
       this.props.history.push("/registration")
@@ -118,21 +114,14 @@ class Register extends React.Component {
 
   /**
    *  Every time the user enters something in the input field, the state gets updated.
-   * @param key (the key of the state for identifying the field that needs to be updated)
-   * @param value (the value that gets assigned to the identified state key)
    */
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
     this.setState({ [key]: value });
   }
-
-  /**
+ /**
    * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
-   * Initialization that requires DOM nodes should go here.
-   * If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-   * You may call setState() immediately in componentDidMount().
-   * It will trigger an extra rendering, but it will happen before the browser updates the screen.
    */
   componentDidMount() {}
 
@@ -143,6 +132,7 @@ class Register extends React.Component {
         <FormContainer>
           <Form>
             <Label>Username</Label>
+            {/* This is the first inputField, that will invoke handleInputChange(), whenever something is written inside it */}
             <InputField
               placeholder="Pleasse enter your username here..."
               onChange={e => {
@@ -150,6 +140,7 @@ class Register extends React.Component {
               }}
             />
             <Label>Name</Label>
+            {/* This is the second inputField, that will invoke handleInputChange(), whenever something is written inside it */}
             <InputField
               placeholder="Please enter the name here..."
               onChange={e => {
@@ -157,6 +148,7 @@ class Register extends React.Component {
               }}
             />
             <Label>Password</Label>
+            {/* This is the third inputField, that will invoke handleInputChange(), whenever something is written inside it */}
             <InputField type="password"
               placeholder="Please enter the password here..."
               onChange={e => {
@@ -165,6 +157,7 @@ class Register extends React.Component {
             />
 
             <ButtonContainer>
+            {/* A check is first done, before the user can submit the register info and register() is invoked -> fields cannot be empty & password cannot be shorter than 5 char */}
               <Button
                 disabled={!this.state.username || !this.state.name || !this.state.password || this.state.password.length<5}
                 width="50%"
