@@ -108,7 +108,6 @@ class Login extends React.Component {
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);
       // To reload, when the user login goes wrong
-      window.location.reload(true);
     }
   }
 
