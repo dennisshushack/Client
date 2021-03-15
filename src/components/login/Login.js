@@ -80,7 +80,7 @@ class Login extends React.Component {
     try {
       // What we send back to the backend
       const requestBody = JSON.stringify({
-        username: this.state.username,
+        username: this.state.username.toLowerCase(),
         password: this.state.password
       });
       // We create a Put Request to the backend to /login
