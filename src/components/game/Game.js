@@ -61,7 +61,7 @@ class Game extends React.Component {
     async upload() {
       const fd = new FormData();
       fd.append('file',this.state.selectedFile);
-      axios.post('http://localhost:8080/upload',fd).then(res =>{
+      axios.post('http://localhost:8080/items/1/image',fd).then(res =>{
         alert(res.data.message);
       })
    
@@ -70,9 +70,9 @@ class Game extends React.Component {
 
   async componentDidMount() {
     try {
-      const response = await api.get('/files/2');
+      const response = await api.get('http://localhost:8080/items/1/image');
       this.setState({ retrievedFile: response.data });
-      console.log(this.retrievedFile)
+      console.log(response.data)
     } catch (error) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
@@ -87,7 +87,8 @@ class Game extends React.Component {
         <br/>
         <button onClick={this.clickEventHandler}>Upload image</button>
         <br/>
-        <img src="http://localhost:8080/files/2" alt=""/>
+        <img src={this.state.retrievedFile} alt=""/>
+      <p>hello world</p>
       </Container>
     );
   }
