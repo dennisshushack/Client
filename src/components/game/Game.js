@@ -87,7 +87,7 @@ class Game extends React.Component {
         <br/>
         <button onClick={this.clickEventHandler}>Upload image</button>
         <br/>
-        <img src={this.state.retrievedFile} alt=""/>
+        <img src="http://localhost:8080/items/1/image" alt=""/>
       <p>hello world</p>
       </Container>
     );
